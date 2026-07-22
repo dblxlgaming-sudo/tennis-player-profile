@@ -166,7 +166,8 @@ window.addEventListener('DOMContentLoaded', () => {
       arrowEl.className = 'bio-rank-arrow ' + (rankArrowRaw === '▲' ? 'up' : rankArrowRaw === '▼' ? 'down' : 'flat');
     }
     const changeNum = num(rankChangeRaw);
-    setText('bio-rank-change', changeNum !== null ? '(' + (changeNum > 0 ? '+' : '') + changeNum + ')' : '');
+    const changeEl = document.getElementById('bio-rank-change');
+    if(changeEl) changeEl.textContent = changeNum !== null ? '(' + (changeNum > 0 ? '+' : '') + changeNum + ')' : '';
   } else {
     document.getElementById('bio-rank-row').style.display = 'none';
   }
