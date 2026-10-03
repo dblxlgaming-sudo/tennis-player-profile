@@ -1,0 +1,2 @@
+# Published release files are hash-addressed artifacts. Preserve their exact bytes.
+data/releases/** -text
