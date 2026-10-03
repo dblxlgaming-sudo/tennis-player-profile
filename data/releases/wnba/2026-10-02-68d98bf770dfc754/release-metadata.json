@@ -1,0 +1,14 @@
+{
+  "sport": "wnba",
+  "release": "2026-10-02-68d98bf770dfc754",
+  "profileVersion": "wnba-player-profile-v1",
+  "generatedAt": "2026-10-03T22:32:52+00:00",
+  "publishedAt": "2026-10-03T23:41:57.456Z",
+  "trackedDateStart": "2026-08-01",
+  "trackedDateEnd": "2026-10-02",
+  "artifact": {
+    "fileName": "wnba_player_profiles_v1.json",
+    "sha256": "68d98bf770dfc75469fceef7a0af1b7101582b3763ba74e1fc3c04b4b60be4dd",
+    "profiles": 228
+  }
+}

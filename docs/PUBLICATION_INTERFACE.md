@@ -4,11 +4,7 @@ This repository is a read-only static consumer of validated upstream artifacts. 
 
 ## Stable locations
 
-`data/publication-manifest.json` is the browser-facing publication boundary. It currently points to:
-
-- Tennis profile: `data/tennis/TripleThreat_Tennis_V2_Player_Profile.csv`
-- Tennis factual history: `data/tennis/TripleThreat_Tennis_V2_Player_Stat_Charts.csv`
-- WNBA profiles: `data/wnba/wnba_player_profiles_v1.json`
+`data/publication-manifest.json` is the browser-facing publication boundary. Each sport points to one immutable release under `data/releases/<sport>/<release-id>/`. Tennis points to its profile, factual history, and authoritative publication receipt as one unit. WNBA points to its profile and release metadata.
 
 Tennis and WNBA entries are loaded independently. A failed sport does not make the other sport unavailable. Future automation may change a sport's manifest paths to stable published URLs without changing the UI, provided the browser can fetch them and the authoritative contracts remain compatible.
 
@@ -38,3 +34,5 @@ Publication automation must stage candidates outside the stable paths, validate 
 4. On success, promote the candidate to the stable/versioned location and update only that sport's manifest entry.
 
 Never overwrite the current published file before validation. Tennis failure must not block WNBA promotion, and WNBA failure must not block Tennis promotion. The UI always reads the most recent successfully promoted artifact, including a validated current-day refresh.
+
+Operational commands, validation rules, rollback, retention, and the safe Git handoff are documented in `docs/ARTIFACT_PUBLICATION.md`.

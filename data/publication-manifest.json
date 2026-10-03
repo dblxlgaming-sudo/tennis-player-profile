@@ -2,14 +2,41 @@
   "interfaceVersion": "triple-threat-player-profile-publication-v1",
   "sports": {
     "tennis": {
-      "profile": "./data/tennis/TripleThreat_Tennis_V2_Player_Profile.csv",
-      "history": "./data/tennis/TripleThreat_Tennis_V2_Player_Stat_Charts.csv",
-      "contract": "./docs/PLAYER_PROFILE_CONTRACT.md"
+      "release": "2026-09-30-ce308f36ef9467c1",
+      "snapshotId": "tennis-v2-snapshot-sha256:ce308f36ef9467c183e7a0e8f35122a12453ca170919862404f017455836d493",
+      "publishedAt": "2026-10-03T23:41:57.295Z",
+      "dataThrough": "2026-09-30",
+      "contract": "./docs/PLAYER_PROFILE_CONTRACT.md",
+      "publicationContract": "./docs/PLAYER_PROFILE_PUBLICATION_MANIFEST_CONTRACT.md",
+      "receipt": "./data/releases/tennis/2026-09-30-ce308f36ef9467c1/publication-receipt.json",
+      "profile": "./data/releases/tennis/2026-09-30-ce308f36ef9467c1/TripleThreat_Tennis_V2_Player_Profile.csv",
+      "history": "./data/releases/tennis/2026-09-30-ce308f36ef9467c1/TripleThreat_Tennis_V2_Player_Stat_Charts.csv",
+      "artifacts": {
+        "playerProfile": {
+          "sha256": "13540eb9e55c0662a769a43d101eb8dc47ce5eadd9ad81ea0e6ce7624da9dc68",
+          "rows": 774
+        },
+        "playerStatCharts": {
+          "sha256": "94336ffdec5e53e10ac395749aced32897ed18687a765243b42de0926053c758",
+          "rows": 5709
+        }
+      },
+      "previousRelease": null
     },
     "wnba": {
-      "profile": "./data/wnba/wnba_player_profiles_v1.json",
+      "release": "2026-10-02-68d98bf770dfc754",
+      "publishedAt": "2026-10-03T23:41:57.456Z",
+      "profileVersion": "wnba-player-profile-v1",
+      "trackedDateStart": "2026-08-01",
+      "trackedDateEnd": "2026-10-02",
       "contract": "./docs/wnba_player_profile_v1.md",
-      "profileVersion": "wnba-player-profile-v1"
+      "metadata": "./data/releases/wnba/2026-10-02-68d98bf770dfc754/release-metadata.json",
+      "profile": "./data/releases/wnba/2026-10-02-68d98bf770dfc754/wnba_player_profiles_v1.json",
+      "artifact": {
+        "sha256": "68d98bf770dfc75469fceef7a0af1b7101582b3763ba74e1fc3c04b4b60be4dd",
+        "profiles": 228
+      },
+      "previousRelease": null
     }
   }
 }
