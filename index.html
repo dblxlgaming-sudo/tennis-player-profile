@@ -1,191 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#071426;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#fff;min-height:100vh}
-
-.crumb{font-size:11px;color:#5b87c4;padding:14px 14px 0}
-.bio-header{padding:16px}
-.bio-photo{width:88px;height:88px;border-radius:50%;background:#1c2740;margin:0 auto 12px;display:block;border:2px solid #214369}
-.bio-name{font-size:22px;font-weight:800;text-align:center}
-.bio-surface{font-size:13px;color:#8fa3bc;text-align:center;margin-bottom:4px}
-.bio-rank-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:14px}
-.bio-rank{font-size:13px;color:#c3d0e0;font-weight:700}
-.bio-rank-arrow{font-size:13px;font-weight:800}
-.bio-rank-arrow.up{color:#22c55e}
-.bio-rank-arrow.down{color:#ef4444}
-.bio-rank-arrow.flat{color:#6f87a3}
-.bio-rank-change{font-size:11px;color:#6f87a3}
-
-.section{margin:10px;background:#0d1f35;border-radius:14px;border:1px solid #214369;padding:14px}
-.section-title{font-size:11px;font-weight:800;color:#5b87c4;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
-.section-sub{font-size:10px;color:#5b8;color:#6f87a3;margin-bottom:12px}
-
-/* raw stat tile row (existing 6-tile pattern, unchanged look) */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.stat-card{background:#081a2e;border:1px solid #214369;border-radius:12px;padding:10px}
-.stat-label{font-size:9px;color:#5b87c4;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.stat-val{font-size:17px;font-weight:800}
-.stat-note{font-size:9px;color:#6f87a3;margin-top:3px}
-
-/* How You Compare — bold tile grid, Concept C style */
-.compare-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.compare-tile{background:#081a2e;border:1px solid #214369;border-radius:12px;padding:14px 8px;text-align:center}
-.compare-name{font-size:9px;color:#8fa3bc;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;min-height:22px;display:flex;align-items:center;justify-content:center}
-.compare-num{font-size:20px;font-weight:900;margin-bottom:5px}
-.compare-num.good{color:#f59e0b}
-.compare-num.mid{color:#e8edf5}
-.compare-rank{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;display:inline-block}
-.compare-rank.good{background:#3a2c0d;color:#f59e0b}
-.compare-rank.mid{background:#1e2a3d;color:#8fa3bc}
-.compare-rank.gated{background:#1e2a3d;color:#5b6b80;font-size:9px}
-
-@media(max-width:420px){.compare-grid{grid-template-columns:1fr 1fr}.stat-grid{gap:8px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Triple Threat factual player profiles for Tennis and WNBA.">
+  <title>Player Profile | Triple Threat</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<div class="crumb" id="crumb"></div>
-
-<div class="bio-header">
-  <div class="bio-photo" id="bio-photo"></div>
-  <div class="bio-name" id="bio-name"></div>
-  <div class="bio-surface" id="bio-surface"></div>
-  <div class="bio-rank-row" id="bio-rank-row">
-    <span class="bio-rank" id="bio-rank"></span>
-    <span class="bio-rank-arrow" id="bio-rank-arrow"></span>
-    <span class="bio-rank-change" id="bio-rank-change"></span>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-title">Player Bio</div>
-  <div class="section-sub" id="bio-text" style="color:#c3d0e0;font-size:12px;line-height:1.5"></div>
-</div>
-
-<div class="section">
-  <div class="section-title" id="compare-title">How She Compares</div>
-  <div class="section-sub" id="compare-sub">Ranked against all WTA players on this surface</div>
-  <div class="compare-grid" id="compare-grid"></div>
-</div>
-
-<div class="section">
-  <div class="section-title">Match Stats</div>
-  <div class="stat-grid">
-    <div class="stat-card"><div class="stat-label">Surface Win %</div><div class="stat-val" id="v-surfacewin"></div></div>
-    <div class="stat-card"><div class="stat-label">3-Set Rate</div><div class="stat-val" id="v-3set"></div></div>
-    <div class="stat-card"><div class="stat-label">Surface Avg Total Games</div><div class="stat-val" id="v-avggames"></div></div>
-    <div class="stat-card"><div class="stat-label">BP Created / Converted</div><div class="stat-val" id="v-bpcreated"></div></div>
-    <div class="stat-card"><div class="stat-label">Aces / Match</div><div class="stat-val" id="v-aces"></div></div>
-    <div class="stat-card"><div class="stat-label">DF / Match</div><div class="stat-val" id="v-df"></div></div>
-  </div>
-</div>
-
-<div style="height:20px"></div>
-
-<script>
-function p(k){return new URLSearchParams(window.location.search).get(k)||''}
-function setText(id,val){const e=document.getElementById(id);if(e)e.textContent=val||'—'}
-function num(v){const n=parseFloat(v);return isNaN(n)?null:n}
-function fmt1(v,unit){if(v===null)return '—';return unit==='x'?v.toFixed(2)+'x':v.toFixed(1)+unit}
-
-/* Stat metadata: key -> [label, valueParam, unit, rankParam, pctParam] */
-const STAT_META = {
-  hold:        ['Service Games Won','holdval','%','holdrank','holdpct'],
-  aces:        ['Aces / Match','acesval','','acesrank','acespct'],
-  serve1stwon: ['1st Serve Won %','serve1stwonval','%','serve1stwonrank','serve1stwonpct'],
-  bpsaved:     ['BP Saved %','bpsavedval','%','bpsavedrank','bpsavedpct'],
-  serve1stin:  ['1st Serve In %','serve1stinval','%','serve1stinrank','serve1stinpct'],
-  breakpct:    ['Break %','breakval','%','breakrank','breakpct'],
-  bpconverted: ['BP Converted %','bpconvertedval','%','bpconvertedrank','bpconvertedpct'],
-  serve2ndwon: ['2nd Serve Won %','serve2ndwonval','%','serve2ndwonrank','serve2ndwonpct'],
-  dfmatch:     ['DF / Match','dfmatchval','','dfmatchrank','dfmatchpct'],
-  tiebreak:    ['Tiebreak Win %','tiebreakval','%','tiebreakrank','tiebreakpct']
-};
-
-/* Which 5 stats show per surface, per the research-backed rosters */
-const SURFACE_ROSTERS = {
-  'Grass': ['hold','aces','serve1stwon','bpsaved','serve1stin'],
-  'Clay':  ['breakpct','bpconverted','bpsaved','serve2ndwon','dfmatch'],
-  'Hard':  ['hold','bpconverted','bpsaved','serve1stwon','tiebreak']
-};
-
-function buildCompareTile(statKey){
-  const meta = STAT_META[statKey];
-  if(!meta) return '';
-  const [label, valParam, unit, rankParam, pctParam] = meta;
-  const val = num(p(valParam));
-  const rankRaw = p(rankParam);
-  const rankNum = num(rankRaw);
-  const pctNum = num(p(pctParam));
-
-  const displayVal = fmt1(val, unit);
-
-  // gated (thin sample) case: rank param holds text like "Low TB Sample" instead of a number
-  if(rankRaw && rankNum === null){
-    return `<div class="compare-tile">
-      <div class="compare-name">${label}</div>
-      <div class="compare-num mid">${displayVal}</div>
-      <div class="compare-rank gated">${rankRaw}</div>
-    </div>`;
-  }
-
-  const isGood = pctNum !== null ? pctNum >= 50 : (rankNum !== null ? rankNum <= 75 : true);
-  const numClass = isGood ? 'good' : 'mid';
-  const rankClass = isGood ? 'good' : 'mid';
-  const rankText = rankNum !== null ? '#'+rankNum : '—';
-
-  return `<div class="compare-tile">
-    <div class="compare-name">${label}</div>
-    <div class="compare-num ${numClass}">${displayVal}</div>
-    <div class="compare-rank ${rankClass}">${rankText}</div>
-  </div>`;
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  const playerName = p('playername');
-  const surface = p('surface'); // expected: 'Grass' | 'Hard' | 'Clay'
-
-  setText('crumb', 'Player Profiles / ' + playerName);
-  setText('bio-name', playerName);
-  setText('bio-surface', surface);
-  setText('bio-text', p('biotext'));
-
-  // Rank + Change/Arrow (mirrors CE/CI/CJ on Glide Player Profile Display)
-  const rankVal = p('rank');
-  const rankArrowRaw = p('rankarrow'); // '▲' | '▼' | '–' | ''
-  const rankChangeRaw = p('rankchange'); // numeric or blank
-  if(rankVal){
-    setText('bio-rank', '#' + rankVal);
-    const arrowEl = document.getElementById('bio-rank-arrow');
-    if(arrowEl){
-      arrowEl.textContent = rankArrowRaw || '–';
-      arrowEl.className = 'bio-rank-arrow ' + (rankArrowRaw === '▲' ? 'up' : rankArrowRaw === '▼' ? 'down' : 'flat');
-    }
-    const changeNum = num(rankChangeRaw);
-    const changeEl = document.getElementById('bio-rank-change');
-    if(changeEl) changeEl.textContent = changeNum !== null ? '(' + (changeNum > 0 ? '+' : '') + changeNum + ')' : '';
-  } else {
-    document.getElementById('bio-rank-row').style.display = 'none';
-  }
-
-  const pronoun = (p('pronoun') || 'They').trim();
-  setText('compare-title', 'How ' + pronoun + ' Compare' + (pronoun.toLowerCase()==='they' ? '' : 's'));
-  setText('compare-sub', 'Ranked against all WTA players on ' + surface);
-
-  const roster = SURFACE_ROSTERS[surface] || SURFACE_ROSTERS['Hard'];
-  document.getElementById('compare-grid').innerHTML = roster.map(buildCompareTile).join('');
-
-  setText('v-surfacewin', p('surfacewin') ? (parseFloat(p('surfacewin'))).toFixed(1)+'%' : '—');
-  setText('v-3set', p('threeset') ? (parseFloat(p('threeset'))).toFixed(1)+'%' : '—');
-  setText('v-avggames', p('avggames'));
-  setText('v-bpcreated', (p('bpcreated')||'—') + ' | ' + (p('bpconvertedraw')||'—'));
-  setText('v-aces', p('acesval'));
-  setText('v-df', p('dfmatchval'));
-});
-</script>
+  <main class="app-shell">
+    <header class="product-header">
+      <div><p class="eyebrow">Triple Threat</p><h1>Player Profile</h1></div>
+      <p class="product-purpose">Factual player context and performance</p>
+    </header>
+    <nav class="sport-tabs" aria-label="Choose sport">
+      <button class="sport-tab" type="button" data-sport="tennis">Tennis</button>
+      <button class="sport-tab" type="button" data-sport="wnba">WNBA</button>
+    </nav>
+    <section id="status" class="status" role="status">Loading published player data…</section>
+    <section id="player-picker" class="picker" aria-labelledby="picker-title" hidden>
+      <div class="picker-heading">
+        <div><p class="eyebrow" id="picker-sport"></p><h2 id="picker-title">Choose a player</h2></div>
+        <span id="player-count" class="count-badge"></span>
+      </div>
+      <label class="search-field"><span class="sr-only">Search players</span><input id="player-search" type="search" placeholder="Search players…" autocomplete="off"></label>
+      <div id="player-results" class="player-results" role="list"></div>
+    </section>
+    <article id="profile" hidden></article>
+  </main>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

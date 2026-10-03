@@ -1,0 +1,15 @@
+{
+  "interfaceVersion": "triple-threat-player-profile-publication-v1",
+  "sports": {
+    "tennis": {
+      "profile": "./data/tennis/TripleThreat_Tennis_V2_Player_Profile.csv",
+      "history": "./data/tennis/TripleThreat_Tennis_V2_Player_Stat_Charts.csv",
+      "contract": "./docs/PLAYER_PROFILE_CONTRACT.md"
+    },
+    "wnba": {
+      "profile": "./data/wnba/wnba_player_profiles_v1.json",
+      "contract": "./docs/wnba_player_profile_v1.md",
+      "profileVersion": "wnba-player-profile-v1"
+    }
+  }
+}

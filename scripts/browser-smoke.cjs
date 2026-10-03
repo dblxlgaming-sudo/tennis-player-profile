@@ -1,0 +1,34 @@
+const { chromium } = require('playwright');
+const assert = require('node:assert/strict');
+
+(async () => {
+  const browser = await chromium.launch({ headless: true, channel: 'msedge' });
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('http://127.0.0.1:8765/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#player-picker').waitFor({ state: 'visible' });
+  assert.equal(await page.locator('#profile').isHidden(), true);
+  assert.equal(await page.locator('#player-picker').isVisible(), true);
+  await page.locator('#player-search').fill('Ajla Tomljanovic');
+  await page.locator('[data-player="Ajla Tomljanovic"]').click();
+  assert.match(await page.locator('.identity h2').textContent(), /Ajla Tomljanovic/i);
+  await page.locator('[data-surface="Clay"]').click();
+  assert.match(page.url(), /surface=Clay/);
+  assert.equal(await page.locator('.data-section').count(), 4);
+  assert.equal(await page.locator('canvas, svg').count(), 0);
+  await page.locator('[data-action="players"]').click();
+  await page.locator('[data-sport="wnba"]').click();
+  await page.locator('#player-search').fill("A'ja Wilson");
+  await page.locator('.player-option').first().click();
+  assert.match(page.url(), /player=espn%3A/);
+  assert.equal(await page.getByText('Tracked sample:', { exact: false }).count() > 0, true);
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal((await page.locator('.section-grid').evaluate((node) => getComputedStyle(node).gridTemplateColumns)).split(' ').length, 1);
+  await page.goto('http://127.0.0.1:8765/?sport=wnba&player=espn%3A2491205', { waitUntil: 'domcontentloaded' });
+  await page.getByText('No tracked appearances', { exact: true }).waitFor({ state: 'visible' });
+  assert.equal(await page.getByText('No tracked appearances', { exact: true }).isVisible(), true);
+  assert.deepEqual(errors, []);
+  await browser.close();
+  console.log('Browser smoke checks passed: entry, search, Tennis surface, WNBA PlayerID, desktop/mobile, zero appearances, no graphs.');
+})().catch((error) => { console.error(error); process.exitCode = 1; });

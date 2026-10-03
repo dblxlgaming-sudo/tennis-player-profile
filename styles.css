@@ -1,0 +1,82 @@
+:root {
+  color-scheme: dark; --bg: #07111f; --panel: #0c1b2d; --panel-2: #10243a; --line: #213b57;
+  --text: #f3f7fb; --muted: #91a5ba; --accent: #62d4a8; --accent-2: #79aef8; --danger: #ffaf88;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at top, #102844 0, var(--bg) 38rem); color: var(--text); }
+button, input { font: inherit; }
+button { color: inherit; }
+.app-shell { width: min(1120px, calc(100% - 28px)); margin: 0 auto; padding: 28px 0 48px; }
+.product-header, .picker-heading, .profile-nav, .identity-main, .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.product-header { margin-bottom: 18px; }
+h1, h2, h3, p { margin: 0; }
+h1 { font-size: clamp(1.45rem, 4vw, 2rem); letter-spacing: -.03em; }
+.eyebrow { color: var(--accent); font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.product-purpose, .muted, .section-note { color: var(--muted); }
+.product-purpose { font-size: .85rem; }
+.sport-tabs, .surface-tabs { display: flex; gap: 7px; flex-wrap: wrap; }
+.sport-tabs { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.sport-tab, .surface-tab, .back-button { border: 1px solid var(--line); background: #0a1828; border-radius: 999px; padding: 8px 15px; cursor: pointer; font-size: .78rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.sport-tab:hover, .surface-tab:hover, .back-button:hover { border-color: var(--accent-2); }
+.sport-tab.active, .surface-tab.active { color: #06151c; background: var(--accent); border-color: var(--accent); }
+.status { margin: 18px 0; color: var(--muted); font-size: .88rem; }
+.status.error { color: var(--danger); }
+.status:empty { display: none; }
+.picker { margin-top: 22px; padding: 18px; border: 1px solid var(--line); background: rgba(12, 27, 45, .94); border-radius: 15px; }
+.picker h2 { margin-top: 3px; font-size: 1.15rem; }
+.count-badge { color: var(--muted); font-size: .75rem; }
+.search-field { display: block; margin: 16px 0 10px; }
+.search-field input { width: 100%; border: 1px solid var(--line); background: #071522; color: var(--text); border-radius: 10px; padding: 11px 13px; outline: none; }
+.search-field input:focus { border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(121,174,248,.12); }
+.player-results { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; max-height: 55vh; overflow: auto; }
+.player-option { text-align: left; border: 1px solid transparent; border-radius: 9px; background: var(--panel-2); padding: 10px 11px; cursor: pointer; }
+.player-option:hover, .player-option:focus { border-color: var(--accent-2); }
+.player-option strong, .player-option span { display: block; }
+.player-option strong { font-size: .88rem; }
+.player-option span { margin-top: 2px; color: var(--muted); font-size: .7rem; }
+.empty-state { padding: 28px 16px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; }
+.profile-nav { margin: 18px 0 14px; }
+.back-button { padding: 7px 12px; text-transform: none; letter-spacing: 0; }
+.sport-label { color: var(--accent); font-size: .72rem; font-weight: 900; letter-spacing: .13em; }
+.identity { padding: 17px 18px; background: linear-gradient(130deg, #10263f, #0b1c2f); border: 1px solid var(--line); border-radius: 15px; }
+.identity-main { align-items: flex-start; }
+.identity h2 { font-size: clamp(1.85rem, 5vw, 3.15rem); line-height: .98; letter-spacing: -.045em; text-transform: uppercase; }
+.identity-context { margin-top: 8px; display: flex; gap: 8px 14px; flex-wrap: wrap; color: var(--muted); font-size: .78rem; }
+.headshot { width: 72px; height: 72px; flex: 0 0 auto; border-radius: 50%; object-fit: cover; background: #162c44; border: 1px solid var(--line); }
+.surface-tabs { margin-top: 16px; }
+.scouting, .data-section, .recent-section, .unavailable { margin-top: 12px; border: 1px solid var(--line); background: var(--panel); border-radius: 13px; padding: 14px; }
+.scouting h3, .data-section h3, .recent-section h3 { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+.scouting p { margin-top: 8px; color: #d8e2ec; font-size: .9rem; line-height: 1.55; }
+.section-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-top: 11px; }
+.metric { min-width: 0; padding: 9px; background: #081725; border-radius: 9px; border: 1px solid rgba(33,59,87,.72); }
+.metric-label { min-height: 2.1em; color: var(--muted); font-size: .64rem; line-height: 1.2; letter-spacing: .06em; text-transform: uppercase; }
+.metric-value { margin-top: 4px; font-size: 1rem; font-weight: 850; overflow-wrap: anywhere; }
+.metric-value.unavailable-value { color: #60758a; font-weight: 650; }
+.section-note { margin-top: 4px; font-size: .67rem; }
+.unavailable { color: var(--muted); text-align: center; padding: 24px 14px; }
+.zero-state { margin-top: 12px; border: 1px solid var(--line); border-radius: 13px; padding: 24px; background: var(--panel); text-align: center; }
+.zero-state strong { display: block; font-size: 1rem; }
+.zero-state span { display: block; margin-top: 5px; color: var(--muted); font-size: .8rem; }
+.table-wrap { overflow-x: auto; margin-top: 10px; }
+table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: .76rem; }
+th { color: var(--muted); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; text-align: left; }
+th, td { padding: 8px 7px; border-bottom: 1px solid rgba(33,59,87,.72); white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+.result-win { color: var(--accent); font-weight: 800; }
+.result-loss { color: var(--danger); font-weight: 800; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+[hidden] { display: none !important; }
+@media (max-width: 760px) {
+  .app-shell { width: min(100% - 20px, 680px); padding-top: 18px; }
+  .product-purpose { display: none; }
+  .player-results, .section-grid { grid-template-columns: 1fr; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .identity h2 { font-size: 2rem; }
+}
+@media (max-width: 420px) {
+  .identity, .picker, .scouting, .data-section, .recent-section { padding: 12px; }
+  .headshot { width: 58px; height: 58px; }
+  .metric { padding: 8px; }
+}
