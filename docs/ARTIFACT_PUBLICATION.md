@@ -20,6 +20,17 @@ node scripts/publish-artifacts.mjs publish wnba --profile <profiles.json>
 
 Paths are explicit and may be absolute or relative. No user-specific source location is built into the publisher. Failures return a nonzero exit code and do not change the active sport pointer.
 
+Zero-touch production publication after a successful upstream refresh:
+
+```text
+node scripts/publish-artifacts.mjs publish tennis --manifest <publication-manifest.json> --profile <profile.csv> --history <history.csv> --production
+node scripts/publish-artifacts.mjs publish wnba --profile <profiles.json> --production
+```
+
+Production mode retains all local validation and staging rules, then serializes Git publication with `.git/player-profile-publication.lock`. It verifies the canonical repository, `main` branch, expected `origin`, absence of unfinished Git operations, an exact data-only path allowlist, and synchronization with `origin/main`. It creates a concise release-specific commit, runs only `git push origin main`, and polls the canonical Pages manifest until the intended release and live SHA-256 are verified. `--timeout-seconds <seconds>` and `--live-url <url>` are available for controlled environments.
+
+Validate-only and local publish commands never commit or push. Production mode requires noninteractive Git credentials suitable for a normal push to `origin/main`.
+
 Rollback to an existing immutable release:
 
 ```text
@@ -28,6 +39,13 @@ node scripts/publish-artifacts.mjs rollback wnba --release <release-id>
 ```
 
 Rollback revalidates the selected release, then changes only that sport's pointer. It does not rebuild statistics.
+
+Production rollback uses the same safety, commit, push, Pages, and hash-verification path:
+
+```text
+node scripts/publish-artifacts.mjs rollback tennis --release <release-id> --production
+node scripts/publish-artifacts.mjs rollback wnba --release <release-id> --production
+```
 
 ## Tennis validation and promotion
 
@@ -45,9 +63,19 @@ WNBA stages and promotes independently from Tennis.
 
 Candidates are validated before staging. Staging uses a temporary directory outside the stable release name, followed by a directory rename. The immutable staged release is validated again. Only then is a temporary product manifest written and renamed over the active manifest. A failure before the final pointer switch leaves the current release active. An interruption after release staging but before pointer promotion may leave an unreferenced complete release, which is safe and may be reused or removed after inspection.
 
-## Git publication handoff
+## Git publication and recovery
 
-The publisher intentionally performs local promotion only. It never commits, pushes, deploys, force-pushes, or rewrites history. After review, production publication requires a clean repository except for the expected manifest and new sport release files, followed by an ordinary data-publication commit and normal push to `main`. Failed validation creates no commit because Git is outside the validation/promotion command.
+Production mode permits only `data/publication-manifest.json` and the exact files for the affected immutable release. Unexpected dirty or staged paths stop publication without cleanup. It never resets work, merges, rebases, force-pushes, or rewrites history.
+
+If local promotion or commit succeeds but push fails, the validated release is retained and the command reports `LOCAL is newer than LIVE`. Re-running the same production command safely recognizes the allowlisted ahead commit and retries the normal push without regenerating statistics. If push succeeds but Pages times out, re-running the same command is idempotent and resumes live verification. Behind or diverged remote state stops with a retry requirement and is never reconciled automatically.
+
+Result classes are reported distinctly: `VALIDATION_FAILURE`, `LOCAL_PROMOTION_FAILURE`, `GIT_SAFETY_FAILURE`, `COMMIT_FAILURE`, `PUSH_FAILURE`, `PAGES_DEPLOYMENT_TIMEOUT`, `LIVE_HASH_VERIFICATION_FAILURE`, and `SUCCESS`.
+
+## Upstream zero-touch contract
+
+After its normal refresh has successfully generated the complete candidate unit, Tennis invokes the Tennis production command with all three explicit paths. WNBA invokes the WNBA production command with its generated JSON path. Invocation occurs only after upstream generation succeeds. The publisher performs validation, promotion, Git publication, Pages waiting, and live verification without Codex or operator file transfer.
+
+Tennis currently calling local-only `publish tennis` needs one minimal integration change after this implementation is deployed: append `--production` and provide noninteractive normal-push credentials in that runtime. WNBA needs to add the documented `publish wnba ... --production` call after its successful normal artifact generation, with the same repository checkout and credential requirement.
 
 ## Retention
 

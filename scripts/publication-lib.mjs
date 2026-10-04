@@ -141,6 +141,15 @@ function releasePath(repoRoot, sport, releaseId) { return path.join(repoRoot, 'd
 function webPath(...parts) { return `./${parts.join('/').replaceAll('\\', '/')}`; }
 function safeReleaseId(value) { return value.replace(/[^a-zA-Z0-9._-]/g, '-'); }
 
+export function tennisReleaseId(validated) {
+  const snapshotHash = validated.manifest.SnapshotID.split(':').at(-1);
+  return safeReleaseId(`${validated.manifest.DataThrough || 'undated'}-${snapshotHash.slice(0, 16)}`);
+}
+
+export function wnbaReleaseId(validated) {
+  return safeReleaseId(`${validated.coverage.TrackedDateEnd}-${validated.hash.slice(0, 16)}`);
+}
+
 function stageRelease(repoRoot, sport, releaseId, files) {
   const sportRoot = path.join(repoRoot, 'data', 'releases', sport);
   fs.mkdirSync(sportRoot, { recursive: true });
@@ -166,8 +175,7 @@ function writeManifestAtomically(manifestPath, manifest) {
 
 export function promoteTennis({ repoRoot, manifestPath, profilePath, historyPath, now = new Date() }) {
   const validated = validateTennis({ manifestPath, profilePath, historyPath });
-  const snapshotHash = validated.manifest.SnapshotID.split(':').at(-1);
-  const releaseId = safeReleaseId(`${validated.manifest.DataThrough || 'undated'}-${snapshotHash.slice(0, 16)}`);
+  const releaseId = tennisReleaseId(validated);
   const sourceManifestName = 'publication-receipt.json';
   const finalDir = stageRelease(repoRoot, 'tennis', releaseId, [
     { from: profilePath, name: validated.manifest.Artifacts.PlayerProfile.FileName },
@@ -192,7 +200,7 @@ export function promoteTennis({ repoRoot, manifestPath, profilePath, historyPath
 
 export function promoteWnba({ repoRoot, profilePath, now = new Date() }) {
   const validated = validateWnba({ profilePath });
-  const releaseId = safeReleaseId(`${validated.coverage.TrackedDateEnd}-${validated.hash.slice(0, 16)}`);
+  const releaseId = wnbaReleaseId(validated);
   const artifactName = path.basename(profilePath);
   const metadataName = 'release-metadata.json';
   const metadataTemp = path.join(repoRoot, 'data', `.wnba-metadata-${crypto.randomUUID()}.json`);
