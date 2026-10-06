@@ -2,26 +2,26 @@
   "interfaceVersion": "triple-threat-player-profile-publication-v1",
   "sports": {
     "tennis": {
-      "release": "2026-10-03-331648b6aedf2b9a",
-      "snapshotId": "tennis-v2-snapshot-sha256:331648b6aedf2b9af9ae6f64f60caaeaf4a379d1bc4633fc887a0d923c5e44f6",
-      "publishedAt": "2026-10-06T03:49:01.122Z",
-      "dataThrough": "2026-10-03",
+      "release": "2026-10-05-b0500f90e3c02635",
+      "snapshotId": "tennis-v2-snapshot-sha256:b0500f90e3c02635ac4b790339707a29cffde4263ba258b206d3017cb7578b01",
+      "publishedAt": "2026-10-06T20:21:59.288Z",
+      "dataThrough": "2026-10-05",
       "contract": "./docs/PLAYER_PROFILE_CONTRACT.md",
       "publicationContract": "./docs/PLAYER_PROFILE_PUBLICATION_MANIFEST_CONTRACT.md",
-      "receipt": "./data/releases/tennis/2026-10-03-331648b6aedf2b9a/publication-receipt.json",
-      "profile": "./data/releases/tennis/2026-10-03-331648b6aedf2b9a/TripleThreat_Tennis_V2_Player_Profile.csv",
-      "history": "./data/releases/tennis/2026-10-03-331648b6aedf2b9a/TripleThreat_Tennis_V2_Player_Stat_Charts.csv",
+      "receipt": "./data/releases/tennis/2026-10-05-b0500f90e3c02635/publication-receipt.json",
+      "profile": "./data/releases/tennis/2026-10-05-b0500f90e3c02635/TripleThreat_Tennis_V2_Player_Profile.csv",
+      "history": "./data/releases/tennis/2026-10-05-b0500f90e3c02635/TripleThreat_Tennis_V2_Player_Stat_Charts.csv",
       "artifacts": {
         "playerProfile": {
-          "sha256": "0f738da952d294e40e584abcee04820e8f8c27c328fc08febdd4aed43e0ea466",
-          "rows": 781
+          "sha256": "bf9f1c902837049e6e5e812cbb0274d65b7360ac68be88d0ee3307f4e70c0158",
+          "rows": 788
         },
         "playerStatCharts": {
-          "sha256": "8f1da9c5ac4c061bde1394ca6f3b1b72f43f5c0c664dc95aae55908d6a8692ea",
-          "rows": 5932
+          "sha256": "92c23828fea97a80e8e819e99779ceef5148b2fbc7b58abb64ead92416618701",
+          "rows": 6104
         }
       },
-      "previousRelease": "2026-09-30-ce308f36ef9467c1"
+      "previousRelease": "2026-10-03-331648b6aedf2b9a"
     },
     "wnba": {
       "release": "2026-10-02-68d98bf770dfc754",
