@@ -1,0 +1,30 @@
+{
+  "ManifestVersion": "tennis-player-profile-publication-v1",
+  "Sport": "Tennis",
+  "SnapshotID": "tennis-v2-snapshot-sha256:331648b6aedf2b9af9ae6f64f60caaeaf4a379d1bc4633fc887a0d923c5e44f6",
+  "GeneratedAt": "2026-10-06T03:49:01.032692+00:00",
+  "DataThrough": "2026-10-03",
+  "SourceSnapshot": {
+    "FileName": "model_data_latest_export.json",
+    "SHA256": "331648b6aedf2b9af9ae6f64f60caaeaf4a379d1bc4633fc887a0d923c5e44f6",
+    "SourceExportID": "TT_Core_CSV_Export_20261005_202250",
+    "SourceExportTimestamp": "2026-10-05T20:22:50",
+    "CapturedAt": "2026-10-05T20:46:34.015756-07:00"
+  },
+  "Contracts": {
+    "PlayerProfile": "player-profile-v1",
+    "PlayerStatCharts": "player-stat-charts-historical-v1"
+  },
+  "Artifacts": {
+    "PlayerProfile": {
+      "FileName": "TripleThreat_Tennis_V2_Player_Profile.csv",
+      "SHA256": "0f738da952d294e40e584abcee04820e8f8c27c328fc08febdd4aed43e0ea466",
+      "Rows": 781
+    },
+    "PlayerStatCharts": {
+      "FileName": "TripleThreat_Tennis_V2_Player_Stat_Charts.csv",
+      "SHA256": "8f1da9c5ac4c061bde1394ca6f3b1b72f43f5c0c664dc95aae55908d6a8692ea",
+      "Rows": 5932
+    }
+  }
+}
