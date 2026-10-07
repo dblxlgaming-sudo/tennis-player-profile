@@ -24,19 +24,19 @@
       "previousRelease": "2026-10-03-331648b6aedf2b9a"
     },
     "wnba": {
-      "release": "2026-10-02-68d98bf770dfc754",
-      "publishedAt": "2026-10-03T23:41:57.456Z",
+      "release": "2026-10-02-bb49aa739aa49211",
+      "publishedAt": "2026-10-07T17:22:24.373Z",
       "profileVersion": "wnba-player-profile-v1",
       "trackedDateStart": "2026-08-01",
       "trackedDateEnd": "2026-10-02",
       "contract": "./docs/wnba_player_profile_v1.md",
-      "metadata": "./data/releases/wnba/2026-10-02-68d98bf770dfc754/release-metadata.json",
-      "profile": "./data/releases/wnba/2026-10-02-68d98bf770dfc754/wnba_player_profiles_v1.json",
+      "metadata": "./data/releases/wnba/2026-10-02-bb49aa739aa49211/release-metadata.json",
+      "profile": "./data/releases/wnba/2026-10-02-bb49aa739aa49211/wnba-player-profiles-v1.json",
       "artifact": {
-        "sha256": "68d98bf770dfc75469fceef7a0af1b7101582b3763ba74e1fc3c04b4b60be4dd",
+        "sha256": "bb49aa739aa4921111b299d47ce09d32076f021bea04d4a02326f7c38ab9184d",
         "profiles": 228
       },
-      "previousRelease": null
+      "previousRelease": "2026-10-02-68d98bf770dfc754"
     }
   }
 }
